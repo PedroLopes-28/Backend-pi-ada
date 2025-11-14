@@ -1,0 +1,416 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+        "title":"Baclend do projeto final para a capacitação de 2025.2, Grupo 2",
+        "description":"Essa api foi criada para uso direto com o front do aplicativo byron.investment, conta com integração direta com a API da brapi",
+        "termsOfService":"http://localhost:3333/terms",
+        "contact":{
+            "email":"pedrolopes@byronsolutions.com"
+        },
+        "version":"1.0.0"
+    
+    
+    },
+    "paths":{
+        "/v1/user":{
+            "post":{
+                "description":"criar um usuário",
+                "requestBody":{
+                    "description":"Dados necessários para a criação de um novo usuário",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestCreateUser"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseCreateUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/login":{
+            "post":{
+                "description":"logar e autenticar um usuário",
+                "requestBody":{
+                    "description":"Dados necessários para efetuar o login e autenticação de um usuário",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestAuthUser"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseAuthUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+         "/v1/logout":{
+            "post":{
+                "description":"Efetuar o logout de um usuário, invalidando o seu token",
+                 "security":[{
+                    "bearerAuth":[]
+                }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseLogoutUser"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/investments":{
+            "post":{
+                "description":"Registra um investimento no banco de dados",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "requestBody":{
+                    "description":"Dados necessários para o registro de um novo investimento",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestCreateInvestment"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseCreateInvestment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+         "/v1/investments/all":{
+            "get":{
+                "description":"Retorna todos os investimentos disponiveis na api brapi",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseAllInvestments"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/investments/edit?investment_id={investment_id}":{
+            "put":{
+                "description":"Edita uma investimento",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "parameters":[{
+                    "name":"investment_id",
+                    "In":"path",
+                    "description":"Id do investimento a ser editado",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+            }],
+                "requestBody":{
+                    "description":"Dados necessários para a edição de um investimento",
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/RequestUpdateInvestment"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseCreateInvestment"
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+         "/v1/investments/get?investment_id={investment_id}":{
+            "get":{
+                "description":"Pesquisa um investimento na api e retorna seusa dados",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "parameters":[{
+                    "name":"investment_id",
+                    "In":"path",
+                    "description":"Id do investimento a ser pesquisado",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+            }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseCreateInvestment"
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/v1/investments/remove?investment_id{investment_id}":{
+            "delete":{
+                "description":"Busca um investimento por id e o remove do banco de dados",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "parameters":[{
+                    "name":"investment_id",
+                    "In":"path",
+                    "description":"Id do investimento",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+            }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseDeleteInvestment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+         "/v1/investments/user?user_id{user_id}":{
+            "get":{
+                "description":"Retorna todos os investimentos de um usuário",
+                "security":[{
+                    "bearerAuth":[]
+                }],
+                "parameters":[{
+                    "name":"user_id",
+                    "In":"path",
+                    "description":"Id do usuário",
+                    "required":"true",
+                    "type":"string",
+                    "format":"uuid"
+            }],
+                "responses":{
+                    "200":{
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/ResponseAllInvestments"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        
+        
+        
+    },
+    
+
+
+    "components":{
+        "schemas":{
+            "RequestCreateUser":{
+                "type": "object",
+                "properties":{
+                    "name":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "password":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseCreateUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    }
+                }
+            },
+            "RequestAuthUser":{
+                "type": "object",
+                "properties":{
+                    "email":{
+                        "type":"string"
+                    },
+                    "password":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseAuthUser":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "token":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseLogoutUser":{
+                "type": "object",
+                "properiest":{
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+            "RequestCreateInvestment":{
+                "type": "object",
+                "properties":{
+                    "name":{
+                        "type":"string"
+                    },
+                    "investedValue":{
+                        "type":"string"
+                    },
+                    "ticker":{
+                        "type":"string"
+                    },
+                    "quantity":{
+                        "type":"string"
+                    },
+                    "user_id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseCreateInvestment":{
+                "type": "object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "investedValue":{
+                        "type":"string"
+                    },
+                    "ticker":{
+                        "type":"string"
+                    },
+                    "quantity":{
+                        "type":"string"
+                    },
+                    "user_id":{
+                        "type":"string"
+                    }
+                }
+            },
+            "ResponseDeleteInvestment":{
+                "type": "object",
+                "properiest":{
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+             "ResponseAllInvestments":{
+                "type": "array",
+                "items":{
+                    "type": "object",
+                        "properties":{
+                    
+                    "name":{
+                        "type":"string"
+                    },
+                    "ticker":{
+                        "type":"string"
+                    },
+                    "price":{
+                        "type":"number"
+                    }
+                }
+                }
+            },
+            "RequestUpdateInvestment":{
+                "type": "object",
+                "properties":{
+                    "quantity":{
+                        "type":"string"
+                    }
+                }
+            }
+    },
+
+        "securityschemas":{
+            "bearerAuth":{
+                "description":"Autenticação utilizando json web token",
+                "type":"http",
+                "scheme":"bearer",
+                "bearerFormat":"JWT"
+            }
+        }
+    } 
+}
