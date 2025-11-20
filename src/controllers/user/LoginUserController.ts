@@ -1,4 +1,4 @@
-import { LoginUserService } from "../services/user/auth/LoginUserService"
+import { LoginUserService } from "../../services/user/auth/LoginUserService"
 import {Request, Response} from "express"
 
 class LoginUserController{
