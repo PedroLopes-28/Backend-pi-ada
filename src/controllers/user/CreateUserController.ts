@@ -1,5 +1,4 @@
-import { UserRequest } from "../interfaces/User/UserRequest"
-import { CreateUserService } from "../services/user/CreateUserService";
+import { CreateUserService } from "../../services/user/CreateUserService";
 import {Request, Response} from "express"
 
 class CreateUserController{

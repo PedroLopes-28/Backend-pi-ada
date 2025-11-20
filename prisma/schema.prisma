@@ -30,8 +30,8 @@ model User {
 
 model Joke{
   id String @id @default(uuid())
-  name String
-  description String
+  setup String
+  punchline String
   user_id String
   user User @relation(fields:[user_id], references:[id])
 
