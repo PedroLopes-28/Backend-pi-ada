@@ -8,7 +8,7 @@ class CreateUserController{
         const {email,password, name}=request.body;
         const userController= new CreateUserService();
         const usuario= await userController.execute({name,password,email});
-        console.log(usuario);
+        
         return response.json(usuario);
     }
 }
