@@ -22,19 +22,16 @@ model User {
 
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  investments Investment[]
+  jokes Joke[]
 
 
   @@map("users")
 }
 
-model Investment{
+model Joke{
   id String @id @default(uuid())
-  name String
-  investedValue Float
-  quantity Int
-  dateInvested DateTime? @default(now())
-  ticker String
+  setup String
+  punchline String
   user_id String
   user User @relation(fields:[user_id], references:[id])
 
@@ -43,14 +40,7 @@ model Investment{
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  @@map("investments")
+  @@map("jokes")
 
-}
-
-model TokenRevogado {//vamos precisar pra facilitar a implementação da blacklist de tokens
-  id        String   @id @default(cuid())
-  jti       String   @unique
-  exp       DateTime
-  createdAt DateTime @default(now())
 }
 

@@ -1,7 +1,7 @@
 import {compare} from "bcryptjs"
 import {sign} from "jsonwebtoken"
 import prismaClient from "../../../prisma/index"
-import { LoginUserRequest } from "../../../interfaces/user/LoginUserRequest"
+import { LoginRequest } from "../../../interfaces/User/auth/LoginRequest"
 import { randomUUID } from "crypto";
 
 
@@ -10,54 +10,50 @@ import { randomUUID } from "crypto";
 
 class LoginUserService{
 
-    async execute ({email,password}: LoginUserRequest){
+    async execute ({email,password}: LoginRequest){
 
-        if(!email){
-            throw new Error ("Email necessário para login");
-        }
-        
-        if(!password){
-            throw new Error ("Senha necessária para login");
-        }
-        const normalizedEmail = email?.trim().toLowerCase();
 
-        const user = await prismaClient.user.findFirst({
+        //verifica se vierarm os dados
+        const emailNormalizado=email?.trim().toLowerCase()
+        if(!emailNormalizado || !password){
+            throw new Error ("Se precisa enviar o email e a senha para fazer o login")
+        }
+        const usuario= await prismaClient.user.findFirst({
             where:{
-                email:normalizedEmail
+                email:email
             }
-        });
+        })
 
-        if(!user){
-            throw new Error("Email ou senha incorretos");
+        if(!usuario){
+            throw new Error ("Email ou senha incorretos");
         }
 
-        const passwordMatch = await compare(password, user.password);// compara a senha com a senha com hash
-
-        if(!passwordMatch){
-            throw new Error("Email ou senha incorretos");
+        const senhaCerta= compare(password, usuario.password);
+        if(!senhaCerta){
+            throw new Error ("Email ou senha incorretos")
         }
 
-        const token = sign({
-            name:user.name,
-            email:user.email
-        },
-        process.env.JWT_SECRET as string,
-        {
-            subject:user.id,
-            expiresIn: "1d",
-            jwtid: randomUUID(),//vamos precisar pra identificar os tokens
-            //estamos mexendo com investimentos, então um tempo mais curto para o token
-            //é mais apropriado
+        const token= sign(
+            {
+                name:usuario.name,
+                email:usuario.email
+            },
+            process.env.JWT_SECRET as string,
+            {
+                subject:usuario.id,
+                expiresIn:'30d'
+            }
+        )
+
+        return {
+            id:usuario.id,
+            name:usuario.name,
+            email:usuario.email,
+            token:token
         }
-    
-    );
-    return {
-                id:user.id,
-                name: user.name,
-                email:user.email,
-                token: token
-                
-            };
+
+
+
     }
 
 }

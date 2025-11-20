@@ -5,11 +5,9 @@ import path from "path"
 
 
 const app=express();
-const port=5555;
+const port=3333;
 
 app.use(express.json());
-app.use(cors())
-//inicializa o swagger para a documentação do codigo
 app.use(router)
 
 

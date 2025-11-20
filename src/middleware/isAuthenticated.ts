@@ -1,43 +1,25 @@
-import { Request, Response, NextFunction } from "express";
-import { verify, JwtPayload } from "jsonwebtoken";
-import prismaClient from "../prisma";
+import {Request, Response, NextFunction} from "express"
+import { Payload } from "../interfaces/User/auth/Payload"
+import {verify} from "jsonwebtoken"
 
-type Payload = JwtPayload & { sub: string; jti?: string };
+export function isAuthenticated(request:Request, response:Response, next:NextFunction){
 
-export async function isAuthenticated(
-  request: Request,
-  response: Response,
-  next: NextFunction
-) {
-  const auth = request.headers.authorization;
 
-  if (!auth?.startsWith("Bearer ")) {
-    return response.status(401).end(); 
-  }
+    //acessar o token js no header da requisição
+    const authToken = request.headers.authorization
 
-  const token = auth.split(" ")[1];
-  if (!token) return response.status(401).end(); 
-
-  try {
-    const { sub, jti } = verify(token, process.env.JWT_SECRET as string) as Payload;
-
-    if (!jti) {
-      return response.status(401).end(); 
+    if(!authToken){
+        return response.status(401).end()// se o token não existe envia um erro
     }
 
-    const revogado = await prismaClient.tokenRevogado.findUnique({
-      where: { jti },
-      select: { id: true },
-    });
-  
-
-    if (revogado) {
-      return response.status(401).json({ error: "Token revogado" }); 
+    const [, token]= authToken.split(" ")//limpa o token para descriptografar
+    try {
+        //validação do token
+        const {sub} = verify(token,process.env.JWT_SECRET) as Payload
+        request.user_id = sub
+        return next()
+    }catch (error){
+        return response.send(401).end()
     }
-
-    request.user_id = sub;
-    return next();
-  } catch {
-    return response.status(401).end();          
-  }
 }
+
