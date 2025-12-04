@@ -6,7 +6,7 @@ import path from "path"
 
 
 const app=express();
-const port=3333;
+const port=process.env.PORT;
 
 app.use(express.json());
 app.use(cors({origin: process.env.FRONTEND_URL}));
