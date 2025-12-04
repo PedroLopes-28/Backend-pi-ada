@@ -1,5 +1,6 @@
 import express, {Request, Response, NextFunction} from "express"
 import {router} from './routes'
+import "dotenv/config";
 import cors from "cors"
 import path from "path"
 
@@ -8,6 +9,7 @@ const app=express();
 const port=3333;
 
 app.use(express.json());
+app.use(cors({origin: process.env.FRONTEND_URL}));
 app.use(router)
 
 
