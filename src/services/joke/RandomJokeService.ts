@@ -2,28 +2,6 @@ import prismaClient from "../../prisma";
 import { JokeByUserRequest } from "../../interfaces/joke/JokeByUserRequest";
 
 
-type JFlags = {
-  nsfw: boolean;
-  religious: boolean;
-  political: boolean;
-  racist: boolean;
-  sexist: boolean;
-  explicit: boolean;
-};
-
-export interface Piada {
-  error: false;
-  category: string;
-  type: 'twopart';
-  setup: string;
-  delivery: string;
-  flags: JFlags;
-  id: number;
-  safe: boolean;
-  lang: 'pt';
-}
-
-
 
 class RandomJokeService{
     async execute ({user_id}:JokeByUserRequest){
