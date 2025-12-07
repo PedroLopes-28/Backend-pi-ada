@@ -21,6 +21,12 @@ class LoginUserService{
         const usuario= await prismaClient.user.findFirst({
             where:{
                 email:email
+            },
+            select:{
+                id:true,
+                name:true,
+                email:true,
+                password:true
             }
         })
 
@@ -28,7 +34,7 @@ class LoginUserService{
             throw new Error ("Email ou senha incorretos");
         }
 
-        const senhaCerta= compare(password, usuario.password);
+        const senhaCerta= await compare(password, usuario.password);
         if(!senhaCerta){
             throw new Error ("Email ou senha incorretos")
         }
