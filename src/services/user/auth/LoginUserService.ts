@@ -2,7 +2,7 @@ import {compare} from "bcryptjs"
 import {sign} from "jsonwebtoken"
 import prismaClient from "../../../prisma/index"
 import { LoginRequest } from "../../../interfaces/User/auth/LoginRequest"
-import { randomUUID } from "crypto";
+
 
 
 
