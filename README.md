@@ -4,6 +4,13 @@ O Site pi-ada foi feito para o armazenamento de piadas para serem usadas em toda
 
 Abaixo segue as tecnologias de cada parte do projeto, bem como fazer cada parte funcionar:
 
+# Setup do Frontend:
+
+para o instalar das dependencias do front basta usar os seguintes comandos:
+
+- npm i
+- npm run dev (para rodar o codigo em si)
+
 # Frontend
 
 disponivel no link : https://github.com/PedroLopes-28/Frontend-pi-ada
@@ -28,6 +35,16 @@ Alem dessas paginas no caso de tentativa de entrada por link (colocando o /home 
 o usuário não autorizado será redirecionado para a pagina abaixo:
 
 ![Tela de Não Autorizado](./src/assets/PrintsDoSite/errado.png)
+
+# Setup do Backend:
+
+para o instalar das dependencias do Backend e deixar tudo funcionando basta usar os seguintes comandos:
+
+- npm i
+- npx prisma migrate dev (para gerar o migrate do banco de dados)
+- npm run dev (para fazer o codigo em si funcionar)
+
+Alem disso, o Backend conta com um arquivo .env.example para o funcionamento total do Backend, é necessário criar um arquivo .env e copiar todas as informações do .env.example para ele
 
 # Backend
 
