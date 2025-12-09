@@ -33,7 +33,7 @@ class RandomJokeService{
         }
 
 
-        const pegaPiada = await fetch('https://v2.jokeapi.dev/joke/Any?lang=en&safe-mode');
+        const pegaPiada = await fetch('https://v2.jokeapi.dev/joke/Any?lang=en&safe-mode&type=twopart');
         //o filtro pega só piadas seguras,-->type=twopart&safe-mode
         //se tirar o safe-mode, ai vem de tudo
         //pra controlar os filtros, basta colocar na url
